@@ -11,6 +11,7 @@ const productsSchema = new Schema(
       unique: true,
       index: true, // Agregue un index a este campo, con solo esto si hacemos una consulta por code va a utilizar el index
       // db.products.getIndex()  Con este comando vemos los indices en una colleccion en mongo
+      trim:true // Saca los espacios al principio y al final
     },
     title: String,
     description: String,
@@ -25,7 +26,8 @@ const productsSchema = new Schema(
       enum: ["pc","monitor","teclado"], // Solo permite dichos valores
     },
   },
-  { timestamps: true } // Esto habilita automáticamente los campos created_at y updated_at
+  { timestamps: true }, // Esto habilita automáticamente los campos created_at y updated_at
+  //{ versionKey: false } // Esto es para que no aparezca el _v cuando guardamos el objeto con monggose
 );
 
 productsSchema.plugin(mongoosePaginate); // Asi inyectamos el plugin de mongoose-paginate en nuestro esquema

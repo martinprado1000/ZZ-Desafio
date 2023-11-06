@@ -1,4 +1,10 @@
 const ProductsRepository = require("../repositories/productsRepository");
+const mongoose = require("mongoose");
+
+// Funcion para validar si los ip son validos para mongo
+const isValid = (id) => {
+  return mongoose.Types.ObjectId.isValid(id);
+};
 
 class ProductsService {
   constructor() {
@@ -20,7 +26,7 @@ class ProductsService {
 
   async getPaginate(data) {
     try {
-      console.log(data)
+      console.log(data);
       // ?limit=2&page=2&query=fruta&sort=asc  // esto podemos recibir en la consulta
       const limit = parseInt(data.limit) || 10;
       const page = parseInt(data.page) || 1;
@@ -35,7 +41,7 @@ class ProductsService {
       if (category) {
         query.category = category; // Agrega la categoría a la consulta si se proporciona
       }
-      const result = await this.ProductsRepository.getPaginate(query,options);
+      const result = await this.ProductsRepository.getPaginate(query, options);
       if (!result || result == "") {
         return { status: 404, data: "Productos no encontrados" };
       }
@@ -47,6 +53,9 @@ class ProductsService {
   }
 
   async getById(id) {
+    if (!isValid(id)) {
+      return { status: 404, data: "ID del carrito invalido" };
+    }
     try {
       if (!id) {
         return { status: 404, data: "Debe enviar un ID valido" };
@@ -63,18 +72,31 @@ class ProductsService {
     }
   }
 
+  async getByCode(code) {
+    try {
+      const result = await this.ProductsRepository.getByCode(code);
+      if (!result) {
+        return { status: 404, data: "Producto no encontrado" };
+      }
+      //console.log(result)
+      return { status: 200, data: result };
+    } catch (e) {
+      console.log(e);
+      return { status: 500, data: "Error inesperado en el sistema" };
+    }
+  }
+
   async post(body) {
-    const { title,description,price,thumbnail,code,stock,category,} = body
+    const { title, description, price, thumbnail, code, stock, category } =
+      body;
     try {
       if (!title || !description || !price || !code || !stock || !category) {
-        return  { status: 404, data: "Campos incompletos" };
+        return { status: 404, data: "Campos incompletos" };
       }
-
-      const products = await this.get()
-      console.log(products)
-      const productFound = products.findIndex((p)=>{p.code == code})
-      console.log(productFound)
-
+      const productFound = await this.ProductsRepository.getByCode(code);
+      if (productFound != null) {
+        return { status: 404, data: "El codigo de producto ya existe" };
+      }
       const result = await this.ProductsRepository.post(body);
       //console.log(result)
       return { status: 201, data: "Producto ingresado correctamente" };
@@ -85,10 +107,21 @@ class ProductsService {
   }
 
   async put(id, body) {
+    if (!isValid(id)) {
+      return { status: 404, data: "ID del carrito invalido" };
+    }
     try {
       if (!id) {
         console.log("Debe enviar un ID valido");
         return { status: 400, data: "Debe enviar un ID valido" };
+      }
+      const productFound = await this.ProductsRepository.getById(id);
+      if (productFound.code != body.code) {
+        // No permito editar el codigo de producto
+        return {
+          status: 404,
+          data: "El código de producto no se puede editar",
+        };
       }
       const result = await this.ProductsRepository.put(id, body);
       //console.log(result)
@@ -103,6 +136,9 @@ class ProductsService {
   }
 
   async delete(id) {
+    if (!isValid(id)) {
+      return { status: 404, data: "ID del carrito invalido" };
+    }
     try {
       if (!id) {
         console.log("Debe enviar un ID valido");

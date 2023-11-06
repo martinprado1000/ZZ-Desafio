@@ -5,10 +5,11 @@ class CartsDAOMongo {
     this.cartsModel = cartsModel;
   }
 
-  async get() {
+  async get(limit) {
     try {
-      return await this.cartsModel.find();
+      return await this.cartsModel.find().limit(limit).populate("products.product");
     } catch (e) {
+      console.log(e)
       throw new Error("Error inesperado al realizar la consulta get");
     }
   }
@@ -16,6 +17,15 @@ class CartsDAOMongo {
   async getById(id) {
     try {
       return await this.cartsModel.findById(id);
+    } catch (e) {
+      console.log(e)
+      throw new Error("Error inesperado al realizar la consulta getById");
+    }
+  }
+
+  async getByEmail(email) {
+    try {
+      return await this.cartsModel.findOne({email:email});
     } catch (e) {
       throw new Error("Error inesperado al realizar la consulta getById");
     }
@@ -43,6 +53,15 @@ class CartsDAOMongo {
       return result
     } catch (e) {
       throw new Error("Error inesperado al realizar la consulta");
+    }
+  }
+
+  async save(ob) {
+    try {
+      return await ob.save();
+    } catch (e) {
+      console.log(e)
+      throw new Error("Error inesperado al salvar la consulta");
     }
   }
 }

@@ -9,8 +9,8 @@ class CartsRepository {
     console.log(this.dao);
   }
 
-  async get() {
-    const result = await this.dao.get();
+  async get(limit) {
+    const result = await this.dao.get(limit);
     if (result == null) {
       return result;
     }
@@ -23,6 +23,15 @@ class CartsRepository {
     if (result == null) {
       return result;
     }
+    //return new CartsDTO(result);
+    return result
+  }
+
+  async getByEmail(email) {
+    const result = await this.dao.getByEmail(email);
+    if (result == null) {
+      return result;
+    }
     return new CartsDTO(result);
     //return result
   }
@@ -32,8 +41,8 @@ class CartsRepository {
     if (result == null) {
       return result;
     }
-    //return new CartsDTO(result);
-    return result
+    return new CartsDTO(result);
+    //return result
   }
 
   async put(id, body) {
@@ -41,14 +50,20 @@ class CartsRepository {
     if (result == null) {
       return result;
     }
-    //return new CartsDTO(result);
-    return result
+    return new CartsDTO(result);
+    //return result
   }
 
   async delete(id) {
     const result = await this.dao.delete(id);
     return result;
   }
+
+  async save(ob) {
+    const result = await this.dao.save(ob);
+    return result;
+  }
+
 }
 
 module.exports = CartsRepository;

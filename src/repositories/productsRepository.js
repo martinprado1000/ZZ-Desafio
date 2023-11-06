@@ -24,11 +24,19 @@ class ProductsRepository {
       return result;
     }
     return result
-    return result.map((product) => new ProductsDTO(product));
+    //return result.map((product) => new ProductsDTO(product));
   }
 
   async getById(id) {
     const result = await this.dao.getById(id);
+    if (result == null) {
+      return result;
+    }
+    return new ProductsDTO(result);
+  }
+
+  async getByCode(code) {
+    const result = await this.dao.getByCode(code);
     if (result == null) {
       return result;
     }
@@ -53,6 +61,11 @@ class ProductsRepository {
 
   async delete(id) {
     const result = await this.dao.delete(id);
+    return result;
+  }
+
+  async save(ob) {
+    const result = await this.dao.save(ob);
     return result;
   }
 }

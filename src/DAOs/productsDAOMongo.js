@@ -29,6 +29,14 @@ class ProductsDAOMongo {
     }
   }
 
+  async getByCode(code) {
+    try {
+      return await this.productsModel.findOne({code:code});
+    } catch (e) {
+      throw new Error("Error inesperado al realizar la consulta getById");
+    }
+  }
+
   async post(body) {
     try {
       return await this.productsModel.create(body);
@@ -51,6 +59,15 @@ class ProductsDAOMongo {
       return result
     } catch (e) {
       throw new Error("Error inesperado al realizar la consulta");
+    }
+  }
+
+  async save(ob) {
+    try {
+      return await ob.save();
+    } catch (e) {
+      console.log(e)
+      throw new Error("Error inesperado al salvar la consulta");
     }
   }
 }

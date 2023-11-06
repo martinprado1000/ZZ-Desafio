@@ -5,7 +5,10 @@ const { Schema, model } = require("mongoose"); // de mongoose solo requier Schem
 //Los tipo de datos los obtenemos d la paguina de mongoose
 const cartsSchema = new Schema(
   {
-    email: String,
+    email: {
+      type: String,
+      trim:true // Saca los espacios al principio y al final
+    },
     products: {
       // Con la siguiente estructura le indicamos a que tabla va a hacer referencia
       type: [
