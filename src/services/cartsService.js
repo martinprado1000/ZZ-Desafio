@@ -49,8 +49,7 @@ class CartsService {
       if (cartFound != null) {
         return { status: 404, data: "El email ya existe" };
       }
-      const result = await this.CartsRepository.post(body);
-      //console.log(result)
+      await this.CartsRepository.post(body);
       return { status: 201, data: "Carrito creado correctamente" };
     } catch (e) {
       console.log(e);
@@ -67,8 +66,7 @@ class CartsService {
       if (cartFound != null) {
         return { status: 404, data: "El email ya existe" };
       }
-      const result = await this.CartsRepository.put(id, body);
-      //console.log(result)
+      await this.CartsRepository.put(id, body);
       if (!result) {
         return { status: 404, data: "Carrito inexistente" };
       }
@@ -85,7 +83,6 @@ class CartsService {
     }
     try {
       const result = await this.CartsRepository.delete(id);
-      //console.log(result.deletedCount)
       if (result.deletedCount == 0) {
         return { status: 404, data: "Carrito inexistente" };
       }
@@ -224,14 +221,16 @@ class CartsService {
           data: "Stock insuficiente",
         };
       }
-      productFoundInCart.quantity = body.quantity;
-      await this.CartsRepository.save(cartFound);
-      // Actualizo el stock de los productos
+      // Calculo actualizacion del stock de los productos
       const updatedQuantity = productFoundInCart.quantity - body.quantity;
       const updatedStock = productFound.stock + updatedQuantity;
-      console.log(updatedQuantity);
-      console.log(updatedStock);
-      this.ProductsRepository.put(pid, { stock: updatedStock });
+
+      // Actualizo quantity del producto en el carrito
+      productFoundInCart.quantity = body.quantity;
+      await this.CartsRepository.save(cartFound);
+
+      // Actualizo stock de los productos
+      this.ProductsRepository.put(pid,{stock: updatedStock});
       return {
         status: 201,
         data: `Cantidad del producto editada correctamente`,
@@ -248,7 +247,6 @@ class CartsService {
     }
     try {
       let cartFound = await this.CartsRepository.getById(cid);
-      console.log(cartFound)
       if (!cartFound) {
         return {
           status: 404,
@@ -263,7 +261,6 @@ class CartsService {
         };
       }
       const productFoundInCart = cartFound.products.find((p) => p.product == pid);
-      console.log(productFoundInCart)
       if (!productFoundInCart) {
         return {
           status: 404,
@@ -273,11 +270,9 @@ class CartsService {
 
       // Actualizo el stock de los productos
       const updatedStock = productFound.stock + productFoundInCart.quantity;
-      //console.log(updatedStock);
       this.ProductsRepository.put(pid, { stock: updatedStock });
 
       cartFound.products = cartFound.products.filter((p) => p.product != pid);
-      console.log(cartFound)
       await this.CartsRepository.save(cartFound);
 
       return {

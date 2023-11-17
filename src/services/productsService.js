@@ -26,29 +26,41 @@ class ProductsService {
 
   async getPaginate(data) {
     try {
-      console.log(data);
       // ?limit=2&page=2&query=fruta&sort=asc  // esto podemos recibir en la consulta
       const limit = parseInt(data.limit) || 10;
       const page = parseInt(data.page) || 1;
       const category = data.category || "";
-      let sort = parseInt(data.sort) == "desc" ? -1 : 1 || "";
+      let sort = data.sort == "asc" ? -1 : 1 || "";
       sort = { price: sort };
       //const sort = parseInt(data.sort) || " ";
       const options = { limit, page, category, sort };
       //const products = await productModel.paginate(query,{ limit , page , sort:{price:sort} })
-      //console.log(options)
       let query = {}; // Define un objeto vacío para la consulta
       if (category) {
         query.category = category; // Agrega la categoría a la consulta si se proporciona
       }
-      const result = await this.ProductsRepository.getPaginate(query, options);
-      if (!result || result == "") {
+      const products = await this.ProductsRepository.getPaginate(query, options);
+      if (!products || products == "") {
         return { status: 404, data: "Productos no encontrados" };
       }
-      return { status: 200, data: result };
+      const payload = products.docs
+      // paguinate me retorna un objeto que contiene toda la info de paguinacion y un array llamado docs que ahi se encuentran los datos solicitados.
+      const productsPaginate = {
+        status: "success",
+        payload,
+        totalPages: products.totalPages,
+        prevPage: products.prevPage,
+        nextPage: products.nextPage,
+        page: products.page,
+        hasPrevPage: products.hasPrevPage,
+        hasNextPage: products.hasNextPage,
+        prevLink: products.hasPrevPage == true ? `http://localhost:8080/realTimeProducts/?page=${products.prevPage}` : null,
+        nextLink: products.hasNextPage == true ? `http://localhost:8080/realTimeProducts/?page=${products.nextPage}` : null,
+      };
+      return { status: 200, data: productsPaginate };
     } catch (e) {
       console.log(e);
-      return { status: 500, data: "Error inesperado en el sistema" };
+      return { status: 500, result: "Error inesperado en el sistema" };
     }
   }
 
@@ -64,7 +76,6 @@ class ProductsService {
       if (!result) {
         return { status: 404, data: "Producto no encontrado" };
       }
-      //console.log(result)
       return { status: 200, data: result };
     } catch (e) {
       console.log(e);
@@ -78,7 +89,6 @@ class ProductsService {
       if (!result) {
         return { status: 404, data: "Producto no encontrado" };
       }
-      //console.log(result)
       return { status: 200, data: result };
     } catch (e) {
       console.log(e);
@@ -97,8 +107,7 @@ class ProductsService {
       if (productFound != null) {
         return { status: 404, data: "El codigo de producto ya existe" };
       }
-      const result = await this.ProductsRepository.post(body);
-      //console.log(result)
+      await this.ProductsRepository.post(body);
       return { status: 201, data: "Producto ingresado correctamente" };
     } catch (e) {
       console.log(e);
@@ -112,10 +121,12 @@ class ProductsService {
     }
     try {
       if (!id) {
-        console.log("Debe enviar un ID valido");
         return { status: 400, data: "Debe enviar un ID valido" };
       }
       const productFound = await this.ProductsRepository.getById(id);
+      if (!productFound) {
+        return { status: 404, data: "Producto no encontrado" };
+      }
       if (productFound.code != body.code) {
         // No permito editar el codigo de producto
         return {
@@ -123,11 +134,7 @@ class ProductsService {
           data: "El código de producto no se puede editar",
         };
       }
-      const result = await this.ProductsRepository.put(id, body);
-      //console.log(result)
-      if (!result) {
-        return { status: 404, data: "Producto no encontrado" };
-      }
+      await this.ProductsRepository.put(id, body);
       return { status: 201, data: "Producto editado correctamente" };
     } catch (e) {
       console.log(e);

@@ -1,0 +1,193 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  {{! <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> }}
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle text-primary"
+          href="#"
+          id="navbarDropdownMenuLink"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >{{userSession}}</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" id="logOut" name="logOut">Cerrar sesion</a>
+          {{! <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a> }}
+        </div>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link text-light" href="#">Mi carrito</a>
+        {{! <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a> }}
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+<div class="mx-3 mt-2">
+  <div class="row d-flex">
+    <div class="col-5">
+      <form
+        name="formProducts"
+        id="formProducts"
+        class="needs-validation col-12"
+        enctype="multipart/form-data"
+        novalidate
+      >
+        <input name="id" type="hidden" id="id" />
+        <div class="col-md">
+          <label for="title" class="form-label">Título del producto</label>
+          <input
+            name="title"
+            class="form-control"
+            id="title"
+            placeholder="Ingrese un título"
+            required
+          />
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="col-md">
+          <label for="description" class="form-label">Descripción</label>
+          <input
+            name="description"
+            type="text-area"
+            class="form-control"
+            id="description"
+            placeholder="Ingrese una descripción"
+            required
+          />
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="col-md">
+          <label for="price" class="form-label">Precio</label>
+          <input
+            name="price"
+            type="number"
+            class="form-control"
+            id="price"
+            placeholder="Ingrese el precio"
+            required
+          />
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="col-md">
+          <label for="code" class="form-label">Codigo</label>
+          <input
+            name="code"
+            type="text"
+            class="form-control"
+            id="code"
+            placeholder="Ingrese el código"
+            required
+          />
+          <div class="invalid-feedback">
+            Please provide a valid city.
+          </div>
+        </div>
+        <div class="col-md">
+          <label for="category" class="form-label">Categoria</label>
+          <select
+            name="category"
+            type="text"
+            class="form-control"
+            id="category"
+            placeholder="Ingrese la categoria"
+            required
+          >
+            <option value="" disabled selected>Seleccione categoria</option>
+            <option value="pc">PC</option>
+            <option value="monitor">Monitor</option>
+            <option value="teclado">Teclado</option>
+          </select>
+          <div class="invalid-feedback">
+            Please provide a valid city.
+          </div>
+        </div>
+        <div class="col-md">
+          <label for="stock" class="form-label">Cantidad</label>
+          <input
+            name="stock"
+            type="number"
+            class="form-control"
+            id="stock"
+            placeholder="Ingrese la cantidad"
+            required
+          />
+          <div class="invalid-feedback">
+            Please provide a valid zip.
+          </div>
+        </div>
+        <div class="col-md">
+          <label for="thumbnail" class="form-label">Imagenes</label>
+          <input
+            name="thumbnail"
+            type="file"
+            class="form-control"
+            id="thumbnail"
+            placeholder="Ingrese URL de las imagenes"
+            required
+          />
+          <div class="invalid-feedback">
+            Please provide a valid zip.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mt-1">
+            <button
+              class="btn btn-success btn"
+              type="submit"
+              name="btnformProducts"
+              id="submit"
+            >Editar</button>
+            <button
+              class="btn btn-danger btn mt-1"
+              disabled
+              id="cancelUpdate"
+            >Cancelar edicion</button>
+          </div>
+
+        </div>
+      </form>
+      {{! <button
+        class="btn btn-primary btn-sm mt-1"
+        id="update"
+        disabled
+      >Actualizar</button> }}
+
+    </div>
+
+    <div class="col-9">
+
+    </div>
+
+  </div>
+</div>
+
+<!-- LLamamos al servisor io para ejecutarlo aca en el frontend,
+como esto ejecuta el servidor este ya establece la comunicacion cada vez que se actualiza la paguina -->
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- Aca le paso mi js publico -->
+<script src="/js/realTimeProducts.js"></script>
+
+<!-- bootstrap -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>
+
+<!-- sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

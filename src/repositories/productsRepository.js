@@ -23,8 +23,10 @@ class ProductsRepository {
     if (result == null) {
       return result;
     }
+    const payload = await result.docs.map((p)=>p.toObject());
+    result.docs = payload
+    result.docs = result.docs.map((product) => new ProductsDTO(product));
     return result
-    //return result.map((product) => new ProductsDTO(product));
   }
 
   async getById(id) {
@@ -32,7 +34,8 @@ class ProductsRepository {
     if (result == null) {
       return result;
     }
-    return new ProductsDTO(result);
+    return result
+    //return new ProductsDTO(result);
   }
 
   async getByCode(code) {
