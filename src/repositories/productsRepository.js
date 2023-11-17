@@ -18,7 +18,7 @@ class ProductsRepository {
   }
 
   async getPaginate(query,options) {
-    console.log({query,options})
+    //console.log({query,options})
     const result = await this.dao.getPaginate(query,options);
     if (result == null) {
       return result;
@@ -34,8 +34,15 @@ class ProductsRepository {
     if (result == null) {
       return result;
     }
+    return new ProductsDTO(result);
+  }
+
+  async getByIdNotDTO(id) {
+    const result = await this.dao.getById(id);
+    if (result == null) {
+      return result;
+    }
     return result
-    //return new ProductsDTO(result);
   }
 
   async getByCode(code) {

@@ -123,7 +123,7 @@ class ProductsService {
       if (!id) {
         return { status: 400, data: "Debe enviar un ID valido" };
       }
-      const productFound = await this.ProductsRepository.getById(id);
+      const productFound = await this.ProductsRepository.getByIdNotDTO(id);
       if (!productFound) {
         return { status: 404, data: "Producto no encontrado" };
       }

@@ -24,7 +24,7 @@ class ProductsControllerViews {
     //     }
     //   };
     
-    async getPaginate(req,res){
+    async realTimeProducts(req,res){
         const query = req.query
         const result = await this.productService.getPaginate(query)
         const data = result.data
@@ -32,7 +32,7 @@ class ProductsControllerViews {
         res.render("realTimeProducts.handlebars",{data,title:"Page products"});
     }
 
-    async getPaginateAdmin(req,res){
+    async realTimeProductsAdmin(req,res){
         const query = req.query
         const result = await this.productService.getPaginate(query)
         const data = result.data
@@ -40,36 +40,48 @@ class ProductsControllerViews {
         res.render("realTimeProductsAdmin.handlebars",{data,title:"Page products"});
     }
 
-    async editProduct(req,res){
+    async realTimeProductsAdminPid(req,res){
         const query = req.query
-        const result = await this.productService.getPaginate(query)
+        const pid = req.params.pid
+        //console.log(pid)
+        const result = await this.productService.getById(pid)
         const data = result.data
-        //console.log(data)
-        res.render("editProduct.handlebars",{data,title:"Edit products"});
+        console.log(data)
+        res.render("realTimeProductsAdminPid.handlebars",{data,title:"Edit products"});
+    }
+
+    async realTimeProductsPid(req,res){
+        const query = req.query
+        const pid = req.params.pid
+        //console.log(pid)
+        const result = await this.productService.getById(pid)
+        const data = result.data
+        console.log(data)
+        res.render("realTimeProductsPid.handlebars",{data,title:"Edit products"});
     }
 
     async getById(req,res){
         const id = req.params.pid
-        const result = await this.productServiceViews.getById(id)
+        const result = await this.productService.getById(id)
         res.json(result)
     }
 
     async post(req,res){
         const body = req.body
-        const result = await this.productServiceViews.post(body)
+        const result = await this.productService.post(body)
         res.json(result)
     }
 
     async put(req,res){
         const id = req.params.pid
         const body = req.body
-        const result = await this.productServiceViews.put(id,body)
+        const result = await this.productService.put(id,body)
         res.json(result)
     }
 
     async delete(req,res){
         const id = req.params.pid
-        const result = await this.productServiceViews.delete(id)
+        const result = await this.productService.delete(id)
         res.json(result)
     }
 

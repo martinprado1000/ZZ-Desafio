@@ -48,6 +48,7 @@
             class="form-control"
             id="title"
             placeholder="Ingrese un título"
+            value="{{data.title}}"
             required
           />
           <div class="valid-feedback">
@@ -62,6 +63,7 @@
             class="form-control"
             id="description"
             placeholder="Ingrese una descripción"
+            value="{{data.description}}"
             required
           />
           <div class="valid-feedback">
@@ -76,6 +78,7 @@
             class="form-control"
             id="price"
             placeholder="Ingrese el precio"
+            value="{{data.price}}"
             required
           />
           <div class="valid-feedback">
@@ -90,6 +93,7 @@
             class="form-control"
             id="code"
             placeholder="Ingrese el código"
+            value="{{data.code}}"
             required
           />
           <div class="invalid-feedback">
@@ -106,8 +110,8 @@
             placeholder="Ingrese la categoria"
             required
           >
-            <option value="" disabled selected>Seleccione categoria</option>
-            <option value="pc">PC</option>
+            <option >{{data.category}}</option>
+            {{!-- <option value="pc">PC</option> --}}
             <option value="monitor">Monitor</option>
             <option value="teclado">Teclado</option>
           </select>
@@ -123,6 +127,7 @@
             class="form-control"
             id="stock"
             placeholder="Ingrese la cantidad"
+            value="{{data.stock}}"
             required
           />
           <div class="invalid-feedback">
@@ -137,6 +142,7 @@
             class="form-control"
             id="thumbnail"
             placeholder="Ingrese URL de las imagenes"
+            value="{{data.thumbnail}}"
             required
           />
           <div class="invalid-feedback">
@@ -146,14 +152,13 @@
         <div class="row">
           <div class="col-6 mt-1">
             <button
-              class="btn btn-success btn"
+              class="btn btn-success mt-2"
               type="submit"
               name="btnformProducts"
               id="submit"
             >Editar</button>
             <button
-              class="btn btn-danger btn mt-1"
-              disabled
+              class="btn btn-danger btn mt-2"
               id="cancelUpdate"
             >Cancelar edicion</button>
           </div>
