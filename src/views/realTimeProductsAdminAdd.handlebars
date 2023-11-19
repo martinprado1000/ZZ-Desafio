@@ -18,7 +18,7 @@
           <a
             class="nav-link active text-light"
             aria-current="page"
-            href="/realTimeProducts"
+            href="realTimeProductsAdmin"
           >Home</a>
         </li>
         <li class="nav-item">
@@ -51,15 +51,24 @@
   </div>
 </nav>
 
+        {{!-- <a
+          class="nav-link dropdown-toggle text-primary"
+          href="#"
+          id="navbarDropdownMenuLink"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >{{userSession}}</a> --}}
+
 <form
   name="formProducts"
   id="formProducts"
-  class="needs-validation row mt-2 mx-2"
+  class="row needs-validation mt-2 mx-2"
   enctype="multipart/form-data"
   novalidate
 >
   <div class="col-6">
-    <input name="id" type="hidden" id="id" value="{{data.id}}" />
+    <input name="id" type="hidden" id="id" />
     <div class="col-md">
       <label for="title" class="form-label">Título del producto</label>
       <input
@@ -67,11 +76,10 @@
         class="form-control"
         id="title"
         placeholder="Ingrese un título"
-        value="{{data.title}}"
-        disabled
+        required
       />
-      <div class="valid-feedback">
-        Looks good!
+      <div class="invalid-feedback">
+        Ingrese un título.
       </div>
     </div>
     <div class="col-md">
@@ -82,11 +90,10 @@
         class="form-control"
         id="description"
         placeholder="Ingrese una descripción"
-        value="{{data.description}}"
-        disabled
+        required
       />
-      <div class="valid-feedback">
-        Looks good!
+      <div class="invalid-feedback">
+        Ingrese una descripción.
       </div>
     </div>
     <div class="col-md">
@@ -97,11 +104,10 @@
         class="form-control"
         id="price"
         placeholder="Ingrese el precio"
-        value="{{data.price}}"
-        disabled
+        required
       />
-      <div class="valid-feedback">
-        Looks good!
+      <div class="invalid-feedback">
+        Ingrese el precio.
       </div>
     </div>
     <div class="col-md">
@@ -112,11 +118,10 @@
         class="form-control"
         id="code"
         placeholder="Ingrese el código"
-        value="{{data.code}}"
-        disabled
+        required
       />
       <div class="invalid-feedback">
-        Please provide a valid city.
+        Ingrese un código de producto.
       </div>
     </div>
     <div class="col-md">
@@ -127,15 +132,15 @@
         class="form-control"
         id="category"
         placeholder="Ingrese la categoria"
-        disabled
+        required
       >
-        <option>{{data.category}}</option>
-        {{! <option value="pc">PC</option> }}
-        <option value="monitor">Monitor</option>
-        <option value="teclado">Teclado</option>
+        <option value="" disabled selected>Selecciona una categoria</option>
+        <option name="category" id="category" value="pc">PC</option>
+        <option name="category" id="category" value="monitor">Monitor</option>
+        <option name="category" id="category" value="teclado">Teclado</option>
       </select>
       <div class="invalid-feedback">
-        Please provide a valid city.
+        Seleccione la categoria.
       </div>
     </div>
     <div class="col-md">
@@ -146,39 +151,33 @@
         class="form-control"
         id="stock"
         placeholder="Ingrese la cantidad"
-        value="{{data.stock}}"
-        disabled
+        required
       />
       <div class="invalid-feedback">
-        Please provide a valid zip.
+        Ingrese la cantidad.
       </div>
     </div>
   </div>
-
   <div class="col-6">
-    <label for="thumbnail" class="form-label">Imagenes</label>
-    <input
-      name="thumbnail"
-      type="file"
-      class="form-control"
-      id="thumbnail"
-      placeholder="Ingrese URL de las imagenes"
-      value="{{data.thumbnail}}"
-      disabled
-    />
-    <div class="invalid-feedback">
-      Please provide a valid zip.
-    </div>
-    <div class="row">
-      <label for="thumbnail" class="form-label mt-3">Cantidad a agregar:</label>
-      <div class="col-4">
-      <input class="form-control" type="number" id="selectQuantity" name="selectQuantity" placeholder="Cantidad"/>
-      </div>
-      <div class="col-4">
-      <button class="btn btn-primary" id="addToCart">Agregar al
-        carrito</button>
-        </div>
-    </div>
+      <label for="thumbnail" class="form-label">Imagenes (Campo no obligatorio)</label>
+      <input
+        name="thumbnail"
+        type="file"
+        class="form-control"
+        id="thumbnail"
+        placeholder="Ingrese URL de las imagenes"
+        {{!-- required --}}
+      />
+      {{!-- <div class="invalid-feedback">
+        Please provide a valid zip.
+      </div> --}}
+    
+      <button
+        class="btn btn-success mt-3"
+        type="submit"
+        name="submit"
+        id="submit"
+      >Guardar producto</button>
   </div>
 </form>
 
@@ -187,7 +186,7 @@ como esto ejecuta el servidor este ya establece la comunicacion cada vez que se 
 <script src="/socket.io/socket.io.js"></script>
 
 <!-- Aca le paso mi js publico -->
-<script src="/js/realTimeProductsPid.js"></script>
+<script src="/js/realTimeProductsAdminAdd.js"></script>
 
 <!-- bootstrap -->
 <script

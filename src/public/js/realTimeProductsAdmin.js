@@ -16,7 +16,7 @@ const thumbnailInput = document.getElementById("thumbnail");
 const codeInput = document.getElementById("code");
 const stockInput = document.getElementById("stock");
 const categoryInput = document.getElementById("category");
-const querySubmit = document.getElementById("querySubmit")
+const querySubmit = document.getElementById("querySubmit");
 
 // Obtengo los datos del formulario
 const obtenerDatos = () => {
@@ -54,16 +54,16 @@ logOut.addEventListener("click", async (e) => {
 });
 
 //goToCart.addEventListener("click", async (e) => {
-  //console.log("holaaaa")
-  // await fetch("/api/register", {
-  //   method: "DELETE",
-  //   headers: { "Content-type": "application/json;charset=UTF-8" },
-  // })
-  //   .then((res) => JSON.stringify(res))
-  //   .then((res) => {
-  //     console.log("se destruyo la sesion");
-  //     window.location.href = "http://localhost:8080/login";
-  //   });
+//console.log("holaaaa")
+// await fetch("/api/register", {
+//   method: "DELETE",
+//   headers: { "Content-type": "application/json;charset=UTF-8" },
+// })
+//   .then((res) => JSON.stringify(res))
+//   .then((res) => {
+//     console.log("se destruyo la sesion");
+//     window.location.href = "http://localhost:8080/login";
+//   });
 // });
 
 //Editar producto
@@ -121,11 +121,57 @@ const buttonFn = () => {
     deleteBtn[i].onclick = async function () {
       var pid = this.value;
       console.log("Eliminar producto: " + pid);
-      window.location.href = `http://localhost:8080/realTimeProductsAdmin/${pid}`;
-      //socket.emit("deleteProduct", pid);
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción eliminará el producto",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, continuar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/api/products/${pid}`, {
+            method: "DELETE",
+            headers: { "Content-type": "application/json" },
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              if (res.status == 201) {
+                Swal.fire({
+                  text: res.data,
+                  icon: "success",
+                  timer: 2000,
+                  timerProgressBar: true,
+                });
+                setTimeout(() => {
+                  window.location.href = "http://localhost:8080/realTimeProductsAdmin";
+                }, 2000);
+              } else {
+                Swal.fire({
+                  text: res.data,
+                  icon: "info",
+                  timer: 2000,
+                  timerProgressBar: true,
+                });
+              }
+            });
+
+          // Agrega aquí la lógica que se debe ejecutar después de la confirmación
+        } else {
+          Swal.fire({
+            text: "La operación ha sido cancelada",
+            icon: "error",
+            timer: 2000,
+            timerProgressBar: true,
+          });
+          //Swal.fire("Cancelado", "La operación ha sido cancelada", "error");
+          // Agrega aquí la lógica que se debe ejecutar si se cancela la operación
+        }
+      });
     };
   }
-
 };
 //};
 buttonFn();

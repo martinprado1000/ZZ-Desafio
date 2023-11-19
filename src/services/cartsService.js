@@ -2,7 +2,7 @@ const CartsRepository = require("../repositories/cartsRepository");
 const ProductsRepository = require("../repositories/productsRepository");
 const mongoose = require("mongoose");
 
-// Funcion para validar si los ip son validos para mongo
+// Funcion para validar si los id son validos para mongo
 const isValid = (id) => {
   return mongoose.Types.ObjectId.isValid(id);
 };

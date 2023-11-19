@@ -15,7 +15,7 @@ const thumbnailInput = document.getElementById("thumbnail");
 const codeInput = document.getElementById("code");
 const stockInput = document.getElementById("stock");
 const categoryInput = document.getElementById("category");
-const querySubmit = document.getElementById("querySubmit")
+const querySubmit = document.getElementById("querySubmit");
 
 // Obtengo los datos del formulario
 const obtenerDatos = () => {
@@ -52,83 +52,98 @@ logOut.addEventListener("click", async (e) => {
     });
 });
 
-//goToCart.addEventListener("click", async (e) => {
-  //console.log("holaaaa")
-  // await fetch("/api/register", {
-  //   method: "DELETE",
-  //   headers: { "Content-type": "application/json;charset=UTF-8" },
-  // })
-  //   .then((res) => JSON.stringify(res))
-  //   .then((res) => {
-  //     console.log("se destruyo la sesion");
-  //     window.location.href = "http://localhost:8080/login";
-  //   });
-// });
-
 //Editar producto
-const buttonFn = () => {
-  // ---- Editar producto --------
-  // const editBtn = document.getElementsByClassName("edit");
-  // for (var i = 0; i < editBtn.length; i++) {
-  //   editBtn[i].onclick = async function () {
-  //     var editProduct = this.value;
-  //     btnSubmit.disabled = true;
-  //     btnUpdate.disabled = false;
-  //     btnCancelUpdate.disabled = false;
-  //     codeInput.disabled = true;
-  //     console.log("Editar producto: " + editProduct);
-  //     socket.emit("getProductById", JSON.stringify(editProduct));
-  //     socket.on("getProductById", async (res) => {
-  //       const getId = JSON.parse(res);
-  //       const data = getId.data;
-  //       idInput.value = data._id;
-  //       titleInput.value = data.title;
-  //       descriptionInput.value = data.description;
-  //       priceInput.value = data.price;
-  //       codeInput.value = data.code;
-  //       categoryInput.value = data.category;
-  //       stockInput.value = data.stock;
-  //       thumbnailInput.value = data.thumbnail;
-  //     });
-  //   };
-  // }
+//const buttonFn = () => {
+// ---- Editar producto --------
+// const editBtn = document.getElementsByClassName("edit");
+// for (var i = 0; i < editBtn.length; i++) {
+//   editBtn[i].onclick = async function () {
+//     var editProduct = this.value;
+//     btnSubmit.disabled = true;
+//     btnUpdate.disabled = false;
+//     btnCancelUpdate.disabled = false;
+//     codeInput.disabled = true;
+//     console.log("Editar producto: " + editProduct);
+//     socket.emit("getProductById", JSON.stringify(editProduct));
+//     socket.on("getProductById", async (res) => {
+//       const getId = JSON.parse(res);
+//       const data = getId.data;
+//       idInput.value = data._id;
+//       titleInput.value = data.title;
+//       descriptionInput.value = data.description;
+//       priceInput.value = data.price;
+//       codeInput.value = data.code;
+//       categoryInput.value = data.category;
+//       stockInput.value = data.stock;
+//       thumbnailInput.value = data.thumbnail;
+//     });
+//   };
+// }
 
-  // ---- Agregar producto al carrito----------
-  const viewProductBtn = document.getElementsByClassName("viewProduct");
-  for (var i = 0; i < viewProductBtn.length; i++) {
-    viewProductBtn[i].onclick = async function () {
-      var pid = this.value;
-      console.log("Ver producto: " + pid);
-      window.location.href = `http://localhost:8080/realTimeProducts/${pid}`;
-      // const addProdutToCart = [
-      //   {
-      //     product: pid,
-      //     quantity: 1,
-      //   },
-      // ];
-      // await fetch("/api/carts", {
-      //   method: "POST",
-      //   headers: { "Content-type": "application/json;charset=UTF-8" },
-      //   body: JSON.stringify(addProdutToCart),
-      // })
-      //   .then((res) => JSON.stringify(res))
-      //   .then((res) => {
-          
-      //   });
-      // const addProdutToCart = {
-      //   email,
-      //   products: [
-      //     {
-      //       product: pid,
-      //       quantity: 1,
-      //     },
-      //   ],
-      // };
-      // socket.emit("addCart", addProdutToCart);
-    };
-  }
-};
-buttonFn();
+// ---- Agregar producto al carrito----------
+const addToCartBtn = document.getElementById("addToCart");
+addToCartBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const product = obtenerDatos();
+  fetch("/api/carts", {
+    method: "POST",
+    headers: { "Content-type": "aplication/json;charset=UTF-8" },
+    body: JSON.stringify(product),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.status == 200) {
+        Swal.fire({
+          title: res,
+          icon: "success", // succes , warning , info , question
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      } else {
+        Swal.fire({
+          title: res,
+          icon: "info", // succes , warning , info , question
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }
+    });
+});
+
+// for (var i = 0; i < addToCart.length; i++) {
+//   viewProductBtn[i].onclick = async function () {
+//     var pid = this.value;
+//     console.log("Ver producto: " + pid);
+//     window.location.href = `http://localhost:8080/realTimeProducts/${pid}`;
+// const addProdutToCart = [
+//   {
+//     product: pid,
+//     quantity: 1,
+//   },
+// ];
+// await fetch("/api/carts", {
+//   method: "POST",
+//   headers: { "Content-type": "application/json;charset=UTF-8" },
+//   body: JSON.stringify(addProdutToCart),
+// })
+//   .then((res) => JSON.stringify(res))
+//   .then((res) => {
+
+//   });
+// const addProdutToCart = {
+//   email,
+//   products: [
+//     {
+//       product: pid,
+//       quantity: 1,
+//     },
+//   ],
+// };
+// socket.emit("addCart", addProdutToCart);
+//   };
+// }
+//};
+//buttonFn();
 
 // Cargo nuevo producto en el front
 socket.on("newProduct", (data) => {
