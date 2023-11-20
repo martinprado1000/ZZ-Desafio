@@ -99,19 +99,6 @@ const buttonFn = () => {
       var pid = this.value;
       console.log("Editar producto: " + pid);
       window.location.href = `http://localhost:8080/realTimeProductsAdmin/${pid}`;
-      //socket.emit("getProductById", JSON.stringify(editProduct));
-      // socket.on("getProductById", async (res) => {
-      //   const getId = JSON.parse(res);
-      //   const data = getId.data;
-      //   idInput.value = data._id;
-      //   titleInput.value = data.title;
-      //   descriptionInput.value = data.description;
-      //   priceInput.value = data.price;
-      //   codeInput.value = data.code;
-      //   categoryInput.value = data.category;
-      //   stockInput.value = data.stock;
-      //   thumbnailInput.value = data.thumbnail;
-      // });
     };
   }
 
@@ -146,7 +133,8 @@ const buttonFn = () => {
                   timerProgressBar: true,
                 });
                 setTimeout(() => {
-                  window.location.href = "http://localhost:8080/realTimeProductsAdmin";
+                  window.location.href =
+                    "http://localhost:8080/realTimeProductsAdmin";
                 }, 2000);
               } else {
                 Swal.fire({
@@ -173,7 +161,7 @@ const buttonFn = () => {
     };
   }
 };
-//};
+
 buttonFn();
 
 //Cancelo edicion de producto

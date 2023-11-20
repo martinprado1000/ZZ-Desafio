@@ -6,7 +6,7 @@ const CartsDTO = require("../DTOs/cartsDTO");
 class CartsRepository {
   constructor() {
     this.dao = cartsFactory(process.env.PERSISTENCE);
-    console.log(this.dao);
+    //console.log(this.dao);
   }
 
   async get(limit) {

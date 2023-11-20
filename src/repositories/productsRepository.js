@@ -6,7 +6,7 @@ const ProductsDTO = require("../DTOs/productsDTO");
 class ProductsRepository {
   constructor() {
     this.dao = productsFactory(process.env.PERSISTENCE);
-    console.log(this.dao);
+    //console.log(this.dao);
   }
 
   async get() {
