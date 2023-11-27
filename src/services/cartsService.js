@@ -185,7 +185,7 @@ class CartsService {
     }
     // Valido mayor que 0
     if (body.quantity <= 0) {
-      return { status: 404, data: "Cantidad de producto incorrecta" };
+      return { status: 404, data: "La cantidad debe ser mayor a cero" };
     }
     try {
       let cartFound = await this.CartsRepository.getById(cid);

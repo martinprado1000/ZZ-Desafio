@@ -37,13 +37,13 @@ class ProductsRepository {
     return new ProductsDTO(result);
   }
 
-  async getByIdNotDTO(id) {
-    const result = await this.dao.getById(id);
-    if (result == null) {
-      return result;
-    }
-    return result
-  }
+  // async getByIdNotDTO(id) {
+  //   const result = await this.dao.getById(id);
+  //   if (result == null) {
+  //     return result;
+  //   }
+  //   return result
+  // }
 
   async getByCode(code) {
     const result = await this.dao.getByCode(code);

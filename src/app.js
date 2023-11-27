@@ -49,18 +49,18 @@ app.use(
     store: MongoStore.create({
       // MongoStore.create, crea una session en la db de mongo
       mongoUrl: CONNECTION_MONGO, // Le indicamos que db crear la session
-      ttl: 1200, // time to live; tiempo de vida, esta en SEGUNDOS.
-      //retrien: 0                 // Cantidad de reintentos que hace para leer el archivo de ssesion
+      ttl: 1200,      // time to live; tiempo de vida, esta en SEGUNDOS.
+      //retrien: 0    // Cantidad de reintentos que hace para leer el archivo de ssesion
     }),
     secret: "estaEsMiLlaveSecreta",
     resave: true, // Si esta opcion la ponemos en false es para que la sesion se mantenga activa en caso de inactividad.
     saveUninitialized: true, // Permite guardar la sesion aunque el objeto de session no tenga nada.
   })
 );
-// initializePassport();
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(flash());
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 const PORT = 8080;
 const httpServer = app.listen(PORT, () =>
@@ -69,13 +69,17 @@ const httpServer = app.listen(PORT, () =>
 
 const io = ioFn(httpServer);
 
-const productRouterViews = require("./routers/productsRoutersViews")
+const productsRouterViews = require("./routers/productsRoutersViews")
 const productsRouter = require("./routers/productsRouters")
 const cartsRouter = require("./routers/cartsRouters")
+const sessionsRouterViews = require("./routers/sessionsRoutesView.js")
+const sessionsRouter = require("./routers/sessionsRoutes.js")
 
 app.use("/api",productsRouter)
 app.use("/api",cartsRouter)
-app.use("/",productRouterViews)
+app.use("/api",sessionsRouter)
+app.use("/",productsRouterViews)
+app.use("/",sessionsRouterViews)
 
 //Ruta incorrecta
 app.use((req, res) => {

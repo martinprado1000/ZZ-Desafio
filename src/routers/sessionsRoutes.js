@@ -6,8 +6,8 @@ const SessionsController = require("../controllers/sessionsController")
 const sessionRouter = new Router()
 
 const sessionsController = new SessionsController();
-
-sessionRouter.get("/", sessionsController.get.bind(sessionsController)); 
+//productRouterViews.get("/realTimeProducts",productsControllerViews.realTimeProducts.bind(productsControllerViews))
+sessionRouter.get("/", sessionsController.getRegister.bind(sessionsController)); 
 
 sessionRouter.post("/register", passport.authenticate('register',{failureRedirect:'/register' , failureFlash: true}), sessionsController.postRegister.bind(sessionsController)); // Inyectamos passport como un middleware. // registerPost 
   

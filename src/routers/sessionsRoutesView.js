@@ -13,7 +13,7 @@ const sessionMiddleware = (req, res, next) => {  // Creo el middleware para usar
   return next();
 };
 
-sessionRouterView.get("/register", sessionMiddleware, sessionsControllerView.register.bind(sessionsControllerView)); // // Aca le agregue el middleware para que si ya a iniciado session no pueda ir a la paginoa de register
+sessionRouterView.get("/register", sessionMiddleware, sessionsControllerView.register.bind(sessionsControllerView)); // Aca le agregue el middleware para que si ya a iniciado session no pueda ir a la paginoa de register
 
 sessionRouterView.get("/login", sessionMiddleware, sessionsControllerView.login.bind(sessionsControllerView)); // Aca le agregue el middleware para que si ya a iniciado session no pueda ir a la paginoa de login
 

@@ -6,20 +6,19 @@ class SessionsController {
     }
 
     async register(req,res){
-        const result = await this.sessionService.get()
-        res.json(result)
+        const error = req.flash('error')[0] // Recordar que flash solo se muestra la primera vez, si hago un clg anteriar luevo el req.flash ya no existe.
+        console.log(error)
+        return res.render('register',{error,hasError:error!==undefined})
     }
     
     async login(req,res){
-        const data = req.query
-        const result = await this.sessionService.getPaginate(data)
-        res.json(result)
+        const error = req.flash('error')[0];
+        console.log(error)
+        return res.render('login',{error,hasError:error!==undefined})
     }
 
     async recoveryPassword(req,res){
-        const id = req.params.pid
-        const result = await this.sessionService.getById(id)
-        res.json(result)
+        res.render("recoveryPassword.handlebars");
     }
 
 }

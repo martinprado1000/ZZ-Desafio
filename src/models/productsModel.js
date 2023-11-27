@@ -25,6 +25,10 @@ const productsSchema = new Schema(
       type: String,
       enum: ["pc","monitor","teclado"], // Solo permite dichos valores
     },
+    owner: {
+      type: String,
+      default: "admin",
+    },
   },
   { timestamps: true }, // Esto habilita automáticamente los campos created_at y updated_at
   //{ versionKey: false } // Esto es para que no aparezca el _v cuando guardamos el objeto con monggose

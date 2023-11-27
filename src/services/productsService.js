@@ -106,7 +106,7 @@ class ProductsService {
 
   async getById(id) {
     if (!isValid(id)) {
-      return { status: 404, data: "ID del carrito invalido" };
+      return { status: 404, data: "ID de producto invalido" };
     }
     try {
       if (!id) {
@@ -157,17 +157,21 @@ class ProductsService {
   }
 
   async put(id, body) {
+    // Valido si es un id valido de mongoo
     if (!isValid(id)) {
-      return { status: 404, data: "ID del carrito invalido" };
+      return { status: 404, data: "ID de producto invalido" };
     }
     try {
+      // Valido si existe el id
       if (!id) {
         return { status: 400, data: "Debe enviar un ID valido" };
       }
-      const productFound = await this.ProductsRepository.getByIdNotDTO(id);
+      const productFound = await this.ProductsRepository.getById(id); //-------
+      // Valido si existe el producto
       if (!productFound) {
         return { status: 404, data: "Producto no encontrado" };
       }
+      // Valido que el codigo de producto no se modifique
       if (productFound.code != body.code) {
         // No permito editar el codigo de producto
         return {
@@ -185,7 +189,7 @@ class ProductsService {
 
   async delete(id) {
     if (!isValid(id)) {
-      return { status: 404, data: "ID del carrito invalido" };
+      return { status: 404, data: "ID de producto invalido" };
     }
     try {
       if (!id) {
