@@ -13,10 +13,6 @@ class SessionsService {
 
   async get() {
     try {
-
-
-
-
     } catch (e) {
       console.log(e);
       return { status: 500, data: "Error inesperado en el sistema" };
@@ -25,46 +21,41 @@ class SessionsService {
 
   async postRegister(data) {
     try {
-  
-
-
     } catch (e) {
       console.log(e);
-      return { status: 500, result: "Error inesperado en el sistema" };
+      return { status: 500, data: "Error inesperado en el sistema" };
     }
   }
 
   async postLogin(data) {
     try {
-
-      
-    } catch (e) {
-      console.log(e);
-      return { status: 500, result: "Error inesperado en el sistema" };
-    }
-  }
-
-  async deleteRegister(id) {
-    try {
-
-
-
     } catch (e) {
       console.log(e);
       return { status: 500, data: "Error inesperado en el sistema" };
     }
+  }
+
+  async deleteRegister(req) {
+    return new Promise((resolve, reject) => {
+      req.session.destroy((err) => {
+        if (!err) {
+          console.log("destroy");
+          resolve({ status: 200, data: "Se destruyó la sesión" });
+        } else {
+          console.error(err); // Manejar el error adecuadamente en tu aplicación
+          reject({ status: 500, data: "Error inesperado en el sistema" });
+        }
+      });
+    });
   }
 
   async resetPassword(code) {
     try {
-
-      
     } catch (e) {
       console.log(e);
       return { status: 500, data: "Error inesperado en el sistema" };
     }
   }
-
 }
 
 module.exports = SessionsService;

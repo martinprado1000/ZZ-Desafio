@@ -7,62 +7,63 @@ class ProductsControllerViews {
 
     async get(req,res){
         const data = await this.productService.get()
-        console.log(data)
         //res.render("realTimeProductsDb.handlebars", {data , userSession});
         res.render("realTimeProducts.handlebars", {data});
         }
-    // const realTimeProducts = async (req, res) => { 
-    //     try {
-    //       const userSession = req.user.name;// Recordar que con passport la session se guarda en req.user
-    //       const query = req.query;
-    //       const response = await productsService.getProductsPaginate(query); 
-    //       const data = response.data  
-    //       res.render("realTimeProductsDb.handlebars", {data , userSession});
-    //     } catch (e) {
-    //       console.log(e);
-    //       return { Error: "Algo salio mal con la consulta" };
-    //     }
-    //   };
 
-    async realTimeProductsAdmin(req,res){
-        const query = req.query
-        const result = await this.productService.getPaginateAdmin(query)
-        const data = result.data
-        //console.log(data)
-        res.render("realTimeProductsAdmin.handlebars",{data,title:"Page products"});
-    }
+    // async realTimeProductsAdmin(req,res){
+    //     const userSession = req.user?.name;
+    //     const query = req.query
+    //     const result = await this.productService.getPaginateAdmin(query)
+    //     const data = result.data
+    //     //console.log(data)
+    //     res.render("realTimeProductsAdmin.handlebars",{userSession, data, title:"Page products"});
+    // }
 
     async realTimeProductsAdminPid(req,res){
+        const userSession = req.user?.name;
         const query = req.query
         const pid = req.params.pid
         //console.log(pid)
         const result = await this.productService.getById(pid)
         const data = result.data
         console.log(data)
-        res.render("realTimeProductsAdminPid.handlebars",{data,title:"Edit product"});
+        res.render("realTimeProductsAdminPid.handlebars",{userSession, data, title:"Edit product"});
     }
 
     async realTimeProductsAdminAdd(req,res){
-        res.render("realTimeProductsAdminAdd.handlebars",{title:"Add product"});
+        const userSession = req.user?.name;
+        console.log(userSession)
+        res.render("realTimeProductsAdminAdd.handlebars",{userSession, title:"Add product"});
+        // if (req.user?.rol == "admin") {
+        //     res.render("realTimeProductsAdminAdd.handlebars",{userSession, title:"Add product"});
+        //   } else {
+        //     res.render("realTimeProductsAdminAdd.handlebars",{userSession, title:"Add product"});
+        //   }
     }
 
 
     async realTimeProducts(req,res){
+        const userSession = req.user?.name;
         const query = req.query
         const result = await this.productService.getPaginate(query)
         const data = result.data
-        //console.log(data)
-        res.render("realTimeProducts.handlebars",{data,title:"Page products"});
+        if (req.user?.rol == "admin") {
+            res.render("realTimeProductsAdmin.handlebars",{data, userSession, title:"Products Admin"});
+          } else {
+            res.render("realTimeProducts.handlebars",{data, userSession, title:"Products"});
+          }
     }
 
     async realTimeProductsPid(req,res){
+        const userSession = req.user?.name;
         const query = req.query
         const pid = req.params.pid
         //console.log(pid)
         const result = await this.productService.getById(pid)
         const data = result.data
         console.log(data)
-        res.render("realTimeProductsPid.handlebars",{data,title:"Page product id"});
+        res.render("realTimeProductsPid.handlebars",{data, userSession, title:"Page product id"});
     }
 
 

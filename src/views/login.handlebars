@@ -1,4 +1,19 @@
-<div class="container mt-5">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/register">Registrarse</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-primary" href="/recovery-password">Recuperar contraseña</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
   <div class="card text-center">
     <div class="card-header">
       Iniciar sesion
@@ -20,7 +35,7 @@
           name="email"
           placeholder="Ingrese su correo"
         />
-        <label for="passwordLogin"></label>
+        <label for="passwordLogin" class="form-label mt-3">Password</label>
         <input
           type="password"
           class="form-control"
@@ -36,21 +51,10 @@
           id="btnLogin"
           name="btnLogin"
         >Iniciar sesion</button>
-
       </div>
     </form>
-
   </div>
-  <a href="/api/loginGithub" class="btn btn-success mt-2">Iniciar sesión con GitHub</a>
-  <div class="mt-2"><a href="/register">Regístrate</a></div>
 </div>
-
-<!-- LLamamos al servisor io para ejecutarlo aca en el frontend, 
-como esto ejecuta el servidor este ya establece la comunicacion cada vez que se actualiza la paguina -->
-<script src="/socket.io/socket.io.js"></script>
-
-<!-- Aca le paso mi js publico -->
-<script src="/js/loginWebsocketsDB.js"></script>
 
 <!-- bootstrap -->
 <script
@@ -58,6 +62,3 @@ como esto ejecuta el servidor este ya establece la comunicacion cada vez que se 
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
   crossorigin="anonymous"
 ></script>
-
-<!-- sweetalert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

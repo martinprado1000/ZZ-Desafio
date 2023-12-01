@@ -1,17 +1,17 @@
 const socket = io();
 console.log(socket);
 
-const submitForm = document.getElementById("formUser");
-const btnRegister = document.getElementById("btnRegister");
+// const submitForm = document.getElementById("formUser");
+const submitFormRegister = document.getElementById("formRegister");
 const name = document.getElementById("name");
 const lastname = document.getElementById("lastname");
 const age = document.getElementById("age");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 
-submitForm.addEventListener("submit", async (e) => {
+submitFormRegister.addEventListener("submit", async (e) => {
   e.preventDefault();
-  submitForm.submit() 
+  submitFormRegister.submit() 
   // const data = {
   //   name: name.value,
   //   lastname: lastname.value,
@@ -82,3 +82,21 @@ submitForm.addEventListener("submit", async (e) => {
 //     icon: "error", // succes , warning , info , question
 //   });
 // });
+
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();

@@ -2,7 +2,6 @@ const socket = io();
 console.log(socket);
 
 // Obtengo los id de cada elemento
-const login = document.getElementById("logOut");
 const goToCart = document.getElementById("goToCart");
 const submitForm = document.getElementById("formProducts");
 const btnSubmit = document.getElementById("submit");
@@ -40,18 +39,6 @@ const obtenerDatos = () => {
   };
   return product;
 };
-
-logOut.addEventListener("click", async (e) => {
-  await fetch("/api/register", {
-    method: "DELETE",
-    headers: { "Content-type": "application/json;charset=UTF-8" },
-  })
-    .then((res) => JSON.stringify(res))
-    .then((res) => {
-      console.log("se destruyo la sesion");
-      window.location.href = "http://localhost:8080/login";
-    });
-});
 
 //goToCart.addEventListener("click", async (e) => {
 //console.log("holaaaa")
@@ -134,7 +121,7 @@ const buttonFn = () => {
                 });
                 setTimeout(() => {
                   window.location.href =
-                    "http://localhost:8080/realTimeProductsAdmin";
+                    "http://localhost:8080/realTimeProducts";
                 }, 2000);
               } else {
                 Swal.fire({
@@ -145,8 +132,6 @@ const buttonFn = () => {
                 });
               }
             });
-
-          // Agrega aquí la lógica que se debe ejecutar después de la confirmación
         } else {
           Swal.fire({
             text: "La operación ha sido cancelada",
@@ -154,8 +139,6 @@ const buttonFn = () => {
             timer: 2000,
             timerProgressBar: true,
           });
-          //Swal.fire("Cancelado", "La operación ha sido cancelada", "error");
-          // Agrega aquí la lógica que se debe ejecutar si se cancela la operación
         }
       });
     };

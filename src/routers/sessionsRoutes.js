@@ -3,14 +3,14 @@ const passport = require("passport")
 
 const SessionsController = require("../controllers/sessionsController")
 
-const sessionRouter = new Router()
+const sessionRouter = new Router() 
 
 const sessionsController = new SessionsController();
 //productRouterViews.get("/realTimeProducts",productsControllerViews.realTimeProducts.bind(productsControllerViews))
-sessionRouter.get("/", sessionsController.getRegister.bind(sessionsController)); 
+sessionRouter.get("/", sessionsController.getRegister.bind(sessionsController));
 
 sessionRouter.post("/register", passport.authenticate('register',{failureRedirect:'/register' , failureFlash: true}), sessionsController.postRegister.bind(sessionsController)); // Inyectamos passport como un middleware. // registerPost 
-  
+
 sessionRouter.post("/login", passport.authenticate('login',{failureRedirect:'/login' , failureFlash: true}), sessionsController.postLogin.bind(sessionsController));  // registerPost 
 
 sessionRouter.get("/loginGithub", passport.authenticate('github',{scope:['user:email']}), async(req,res)=>{});  // Aca hace la redireccion a github para que nos loguiemos, y luego le envia la ingormasion de loguea a la direccion de callback que cargamos en github

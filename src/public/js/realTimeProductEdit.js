@@ -2,7 +2,6 @@ const socket = io();
 console.log(socket);
 
 // Obtengo los id de cada elemento
-const login = document.getElementById("logOut");
 const goToCart = document.getElementById("goToCart");
 const submitForm = document.getElementById("formProducts");
 const btnSubmit = document.getElementById("submit");
@@ -40,19 +39,6 @@ const obtenerDatos = () => {
   };
   return product;
 };
-
-logOut.addEventListener("click", async (e) => {
-  console.log("asdasdasd")
-  await fetch("/api/register", {
-    method: "DELETE",
-    headers: { "Content-type": "application/json;charset=UTF-8" },
-  })
-    .then((res) => JSON.stringify(res))
-    .then((res) => {
-      console.log("se destruyo la sesion");
-      window.location.href = "http://localhost:8080/login";
-    });
-});
 
 //goToCart.addEventListener("click", async (e) => {
   //console.log("holaaaa")

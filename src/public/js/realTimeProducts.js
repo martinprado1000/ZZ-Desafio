@@ -2,7 +2,6 @@ const socket = io();
 console.log(socket);
 
 // Obtengo los id de cada elemento
-const login = document.getElementById("logOut");
 const goToCart = document.getElementById("goToCart");
 const btnSubmit = document.getElementById("submit");
 const btnUpdate = document.getElementById("update");
@@ -15,7 +14,7 @@ const thumbnailInput = document.getElementById("thumbnail");
 const codeInput = document.getElementById("code");
 const stockInput = document.getElementById("stock");
 const categoryInput = document.getElementById("category");
-const querySubmit = document.getElementById("querySubmit")
+const querySubmit = document.getElementById("querySubmit");
 
 // Obtengo los datos del formulario
 const obtenerDatos = () => {
@@ -40,29 +39,17 @@ const obtenerDatos = () => {
   return product;
 };
 
-logOut.addEventListener("click", async (e) => {
-  await fetch("/api/register", {
-    method: "DELETE",
-    headers: { "Content-type": "application/json;charset=UTF-8" },
-  })
-    .then((res) => JSON.stringify(res))
-    .then((res) => {
-      console.log("se destruyo la sesion");
-      window.location.href = "http://localhost:8080/login";
-    });
-});
-
 //goToCart.addEventListener("click", async (e) => {
-  //console.log("holaaaa")
-  // await fetch("/api/register", {
-  //   method: "DELETE",
-  //   headers: { "Content-type": "application/json;charset=UTF-8" },
-  // })
-  //   .then((res) => JSON.stringify(res))
-  //   .then((res) => {
-  //     console.log("se destruyo la sesion");
-  //     window.location.href = "http://localhost:8080/login";
-  //   });
+//console.log("holaaaa")
+// await fetch("/api/register", {
+//   method: "DELETE",
+//   headers: { "Content-type": "application/json;charset=UTF-8" },
+// })
+//   .then((res) => JSON.stringify(res))
+//   .then((res) => {
+//     console.log("se destruyo la sesion");
+//     window.location.href = "http://localhost:8080/login";
+//   });
 // });
 
 //Editar producto
@@ -113,7 +100,7 @@ const buttonFn = () => {
       // })
       //   .then((res) => JSON.stringify(res))
       //   .then((res) => {
-          
+
       //   });
       // const addProdutToCart = {
       //   email,
@@ -130,8 +117,55 @@ const buttonFn = () => {
 };
 buttonFn();
 
+// // Cargo nuevo producto en el front
+// socket.on("newProduct", (data) => {
+//   const product = JSON.parse(data);
+//   const table = document.getElementById("tableProducts");
+//   const newRow = table.insertRow();
+//   //const id = newRow.insertCell();
+//   const title = newRow.insertCell();
+//   const description = newRow.insertCell();
+//   const price = newRow.insertCell();
+//   const code = newRow.insertCell();
+//   const stock = newRow.insertCell();
+//   const category = newRow.insertCell();
+//   const cellEdit = newRow.insertCell();
+//   const cellDelete = newRow.insertCell();
+//   const cellAddCart = newRow.insertCell();
+//   //id.textContent = product._id;
+//   title.textContent = product.title;
+//   description.textContent = product.description;
+//   price.textContent = product.price;
+//   code.textContent = product.code;
+//   stock.textContent = product.stock;
+//   category.textContent = product.category;
+//   const btnEdit = document.createElement("button");
+//   btnEdit.innerText = "Editar";
+//   btnEdit.value = product._id;
+//   btnEdit.classList.add("edit", "btn", "btn-primary", "btn-sm");
+//   cellEdit.appendChild(btnEdit);
+//   const btnDelete = document.createElement("button");
+//   btnDelete.innerText = "Eliminar";
+//   btnDelete.value = product._id;
+//   btnDelete.classList.add("delete", "btn", "btn-danger", "btn-sm");
+//   cellDelete.appendChild(btnDelete);
+//   const h5logged = document.createElement("button");
+//   h5logged.innerText = "Agregar al carrito";
+//   h5logged.value = product._id;
+//   h5logged.classList.add("logged", "btn", "btn-info", "btn-sm");
+//   cellAddCart.appendChild(h5logged);
+//   buttonFn();
+//   Swal.fire({
+//     title: `Producto con codigo ${product.codeInput} agregado correctamente`,
+//     icon: "success", // succes , warning , info , question
+//     timer: 2000,
+//     timerProgressBar: true,
+//   });
+//   limpiarFormulario();
+// });
+
 // Cargo nuevo producto en el front
-socket.on("newProduct", (data) => {
+socket.on("productNewOrEdit", (data) => {
   const product = JSON.parse(data);
   const table = document.getElementById("tableProducts");
   const newRow = table.insertRow();
@@ -167,14 +201,6 @@ socket.on("newProduct", (data) => {
   h5logged.value = product._id;
   h5logged.classList.add("logged", "btn", "btn-info", "btn-sm");
   cellAddCart.appendChild(h5logged);
-  buttonFn();
-  Swal.fire({
-    title: `Producto con codigo ${product.codeInput} agregado correctamente`,
-    icon: "success", // succes , warning , info , question
-    timer: 2000,
-    timerProgressBar: true,
-  });
-  limpiarFormulario();
 });
 
 socket.on("addedProductToCart", async (data) => {

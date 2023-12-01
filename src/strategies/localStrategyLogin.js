@@ -3,7 +3,7 @@ const passportLocal = require("passport-local");
 const userModel = require("../models/userModel");
 const { hashPassword, isValidPassword } = require("../utils/passwordHash");
 
-const LocalStrategy = passportLocal.Strategy; 
+const LocalStrategy = passportLocal.Strategy;
 
 const localStrategyLogin = 
 passport.use("login", new LocalStrategy( 

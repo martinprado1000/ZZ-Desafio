@@ -8,10 +8,17 @@ const LocalStrategy = passportLocal.Strategy;
 const localStrategyRegister = 
 passport.use( // El primer parametro es un string, seria el nombre del passport. Y el segundo es una instacia
 "register", // Nombre del passport
-new LocalStrategy( // Instanciamos el passport, el primer parametro es un objeto y el segundo es una fincion
+new LocalStrategy( // Instanciamos el passport, el primer parametro es un objeto y el segundo es una funcion
   { passReqToCallback: true, usernameField: "email" }, // Si no le indicamos el email toma por default el nombre si tiene.
   async (req, username, password, done) => {
     // El username siermpre hace referencia al email porque lo definimos en la linea de arriba.
+    const {name, lastname, age, passwordRepit} = req.body
+    if(!username || !password ||!name || !lastname || !age || !passwordRepit){
+      return done(null, false, {message:`Datos incompletos`});
+    }
+    if(password != passwordRepit){
+      return done(null, false, {message:`Las contraseñas no coinciden`});
+    }
     try {
       const exist = await userModel.findOne({ email: username }); // Aca le decimos que el email tiene que ser igual a username porque en la linea anterior le indicamos que como nombre usamos el email
 
@@ -19,7 +26,6 @@ new LocalStrategy( // Instanciamos el passport, el primer parametro es un objeto
         const body = req.body;
         body.password = hashPassword(body.password); // Llamamos a nustra funcion para hashear la password
         let user = await userModel.create(body);
-        console.log(user);
         console.log(`Usuario ${username} creado correctamente`);
         return done(null, user);
       }
